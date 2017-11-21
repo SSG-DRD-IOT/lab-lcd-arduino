@@ -12,7 +12,7 @@ LCD Display | Any I<sup>2</sup>C Port
 
 ![](./images/action.png) Connect **LCD Display** to Any I<sup>2</sup>C Port.
 
-## PWM using the Arduino API
+## I<sup>2</sup>C using the Arduino API
 Create a new project
 ```c
 #include <stdio.h>
