@@ -1,37 +1,76 @@
-## Welcome to GitHub Pages
+# Introduction to I<sup>2</sup>C and the LCD Display
 
-You can use the [editor on GitHub](https://github.com/SSG-DRD-IOT/lab-lcd-arduino/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+## Objective
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+The objective of this lab is a learn the basics of an example that uses the I<sup>2</sup>C bus to control the LCD Display
 
-### Markdown
+## Hardware requirements
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+Module | Pin
+--- | ---
+LCD Display | Any I<sup>2</sup>C Port
 
-```markdown
-Syntax highlighted code block
+![](./images/action.png) Connect **LCD Display** to Any I<sup>2</sup>C Port.
 
-# Header 1
-## Header 2
-### Header 3
+## PWM using the Arduino API
+Create a new project
+```c
+#include <stdio.h>
+#include <jhd1313m1.h>
 
-- Bulleted
-- List
+#include "upm_utilities.h"
 
-1. Numbered
-2. List
+int main(void)
+{
+    // Char array to hold LCD message
+    char str[20];
 
-**Bold** and _Italic_ and `Code` text
+    // Initialize the subplatform
+    mraa_add_subplatform(MRAA_GROVEPI, "0");
 
-[Link](url) and ![Image](src)
+    // Initialize the LCD context
+    jhd1313m1_context lcd = jhd1313m1_init(0, 0x3e, 0x62);
+
+    // Handle Initialization errors
+    if (!lcd)
+    {
+        printf("jhd1313m1_i2c_init() failed\n");
+        return 1;
+    }
+
+    while (1)
+    {
+      // Set str to "Intel Blue"
+      snprintf(str, sizeof(str), "Intel Blue");
+
+      // Set the display cursor to the upper left              
+      jhd1313m1_set_cursor(lcd, 0, 0);
+
+      // Write the string to the LCD
+      jhd1313m1_write(lcd, str, strlen(str));
+
+      // Set color to Intel Blue
+      uint8_t r = 0;
+      uint8_t g = 113;
+      uint8_t b = 197;
+
+      // Set the LCD back light color
+      jhd1313m1_set_color(lcd, r, g, b);
+
+      // Debugging output to the serial monitor
+      printf("rgb: 0x%02x%02x%02x\n", r, g, b);
+
+      upm_delay(1);
+    }
+
+    // Close the LCD context
+    jhd1313m1_close(lcd);
+
+    return 0;
+}
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+## Additional resources
+Information, community forums, articles, tutorials and more can be found at the [Intel Developer Zone](https://software.intel.com/iot).
 
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/SSG-DRD-IOT/lab-lcd-arduino/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+For reference code for any sensor/actuator from the Grove* IoT Commercial Developer Kit, visit [https://software.intel.com/en-us/iot/hardware/sensors](https://software.intel.com/en-us/iot/hardware/sensors)
