@@ -2,7 +2,7 @@
 
 ## Objective
 
-The objective of this lab is a learn the basics of an example that uses the I<sup>2</sup>C bus to control the LCD Display.  
+The objective of this lab is a learn the basics of an example that uses the I<sup>2</sup>C bus to control the LCD Display.
 
 In this lab, you will change the LCD background color to Intel Blue and display the text "Intel Blue"
 
@@ -17,6 +17,7 @@ ssh upsquared@<your ip address>
 ```
 
 Run this command to stop the ip_addr_c service.
+
 ```bash
 systemctl stop ip_addr_c
 ```
@@ -27,19 +28,23 @@ Now you can process with labs that make use of the LCD screen.
 
 It's often problematic to run more that one program that makes use of I2C simultaneously. Here are two way that you can know if this is happening:
 
-1. Text on the LCD display is garbaled, or text is overwriting previously displayed text in a confusing manner.
-2. I<sup>2</sup>C bus errors. Sometimes multiple processes writing to the I<sup>2</sup>C bus will cause the  I<sup>2</sup>C bus subsystem to crash. If you are seeing an  I<sup>2</sup>C error then rebooting the Up2 will often fix the problem.
+1. Text on the LCD display is garbled, or text is overwriting previously displayed text in a confusing manner.
+   ![](./images/garbled-text.jpg)
+
+2. I<sup>2</sup>C bus errors. Sometimes multiple processes writing to the I<sup>2</sup>C bus will cause the I<sup>2</sup>C bus subsystem to crash. If you are seeing an I<sup>2</sup>C error then rebooting the Up2 will often fix the problem.
 
 ## Hardware requirements
 
-Module | Pin
---- | ---
-LCD Display | Any I<sup>2</sup>C Port
+| Module      | Pin                     |
+| ----------- | ----------------------- |
+| LCD Display | Any I<sup>2</sup>C Port |
 
 ![](./images/action.png) Connect **LCD Display** to Any I<sup>2</sup>C Port.
 
 ## I<sup>2</sup>C using the Arduino API
+
 Create a new project
+
 ```c
 #include <stdio.h>
 #include <jhd1313m1.h>
@@ -69,7 +74,7 @@ int main(void)
       // Set str to "Intel Blue"
       snprintf(str, sizeof(str), "Intel Blue");
 
-      // Set the display cursor to the upper left              
+      // Set the display cursor to the upper left
       jhd1313m1_set_cursor(lcd, 0, 0);
 
       // Write the string to the LCD
@@ -96,7 +101,15 @@ int main(void)
 }
 ```
 
+## Viewing the Serial Monitor
+
+Be sure to use the serial monitor to debug your programs.
+It can be found in the left side bar.
+
+![](./images/serial-monitor.png)
+
 ## Additional resources
+
 Information, community forums, articles, tutorials and more can be found at the [Intel Developer Zone](https://software.intel.com/iot).
 
-For reference code for any sensor/actuator from the Grove* IoT Commercial Developer Kit, visit [https://software.intel.com/en-us/iot/hardware/sensors](https://software.intel.com/en-us/iot/hardware/sensors)
+For reference code for any sensor/actuator from the Grove\* IoT Commercial Developer Kit, visit [https://software.intel.com/en-us/iot/hardware/sensors](https://software.intel.com/en-us/iot/hardware/sensors)
