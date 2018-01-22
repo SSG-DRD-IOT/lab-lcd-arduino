@@ -2,7 +2,33 @@
 
 ## Objective
 
-The objective of this lab is a learn the basics of an example that uses the I<sup>2</sup>C bus to control the LCD Display
+The objective of this lab is a learn the basics of an example that uses the I<sup>2</sup>C bus to control the LCD Display.  
+
+In this lab, you will change the LCD background color to Intel Blue and display the text "Intel Blue"
+
+## Disable the Program Writing the IP Address to the LCD
+
+When you boot the Up2 Board, there is a system service that launches at boot that will display your IP address on an LCD. **This program is running in the background and you need to disable it before you can use the LCD in a lab.**
+
+![](./images/action.png) Open a terminal and SSH to the Up2 Board
+
+```bash
+ssh upsquared@<your ip address>
+```
+
+Run this command to stop the ip_addr_c service.
+```bash
+systemctl stop ip_addr_c
+```
+
+Now you can process with labs that make use of the LCD screen.
+
+## Identifying When You Are Running Multiple Processes Using I2C
+
+It's often problematic to run more that one program that makes use of I2C simultaneously. Here are two way that you can know if this is happening:
+
+1. Text on the LCD display is garbaled, or text is overwriting previously displayed text in a confusing manner.
+2. I<sup>2</sup>C bus errors. Sometimes multiple processes writing to the I<sup>2</sup>C bus will cause the  I<sup>2</sup>C bus subsystem to crash. If you are seeing an  I<sup>2</sup>C error then rebooting the Up2 will often fix the problem.
 
 ## Hardware requirements
 
